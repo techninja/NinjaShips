@@ -1,0 +1,91 @@
+<!doctype html>
+<head>
+	<meta charset="UTF-8">
+	<title>Space Test</title>
+  <link rel="stylesheet" href="../resources/styles.css">
+
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!--libs-->
+    <script src="../libs/jquery.js"></script>
+    <script src="../libs/jquery.spritely-0.6.js"></script>
+    <script src="../ninjaships.js"></script>
+</head>
+<body class="fixed space">
+
+  <script>
+    var ships = [];
+
+    $(function() {
+      ships[0] = new shipObject("SuperShip", 'ship1', 'b', {x:550, y:100, d:135});
+      ships[1] = new shipObject("FlooperShip", 'ship2', 'a', {x:90, y:70, d:90});
+
+      (function animloop(){
+        if (!stopanim){
+          requestAnimFrame(animloop);
+        }
+        run_ship_anim_frame();
+      })();
+
+      var keyCodes = {
+        16: 'shift', 32: 'space', 37: 'left', 38: 'up', 39: 'right', 40: 'down', 9: 'tab',
+        87: 'w', 83: 's', 65: 'a', 68: 'd'
+      };
+
+      $(document).keydown(function(e){ // KEYDOWN INIT ----------------
+        //console.log(e.keyCode);
+
+        switch (keyCodes[e.keyCode]){
+          case 'up':
+            ships[1].thrust = 0.2; break;
+          case 'down':
+            ships[1].thrust = -0.2; break;
+          case 'left':
+            ships[1].turn = -ships[1].rotation_speed; break;
+          case 'right':
+            ships[1].turn = ships[1].rotation_speed; break;
+          case 'space':
+            ships[1].fire();
+        }
+
+
+        switch (keyCodes[e.keyCode]){
+          case 'w':
+            ships[0].thrust = 0.2; break;
+          case 's':
+            ships[0].thrust = -0.2; break;
+          case 'a':
+            ships[0].turn = -ships[0].rotation_speed; break;
+          case 'd':
+            ships[0].turn = ships[0].rotation_speed; break;
+          case 'shift':
+            ships[0].fire();
+        }
+
+      }).keyup(function(e){ // KEYUP CANCEL ----------------
+        switch (keyCodes[e.keyCode]){
+          case 'up': case 'down':
+            ships[1].thrust = 0;
+            break;
+          case 'left': case 'right':
+            ships[1].turn = 0;
+        }
+
+        switch (keyCodes[e.keyCode]){
+          case 'w': case 's':
+            ships[0].thrust = 0;
+            break;
+          case 'a': case 'd':
+            ships[0].turn = 0;
+        }
+      });
+
+
+
+    });
+
+  </script>
+</body>
+</html>
