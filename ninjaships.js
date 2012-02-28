@@ -33,6 +33,7 @@ window.requestAnimFrame = (function(){
 var stopanim = false;
 var oneshotperscreen = false; // Just like it says!
 var shipscreenwrap = true; // Wrap the ships on the screen
+var explosion_sound_path = "explosion.wav"; // TODO: This method sucks, fix it
 
 // TODO: Preload explosion sprite in code
 
@@ -59,7 +60,7 @@ function shipObject(name, elementid, style, pos){
   this.exploding = false;
   this.element_id = '.ship_id_' + elementid;
 
-  this.explosion_sound = new Audio("explosion.wav");
+  this.explosion_sound = new Audio(explosion_sound_path);
 
   if (style != undefined){
     this.style = style;
